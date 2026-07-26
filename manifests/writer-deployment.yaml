@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: writer-tvu27
+  namespace: nfs-tvu27
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: writer-tvu27
+  template:
+    metadata:
+      labels:
+        app: writer-tvu27
+    spec:
+      containers:
+        - name: writer
+          image: busybox:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              i=1
+              touch /data/log-tvu27.txt
+              while true; do
+                echo "tvu27 $HOSTNAME $(date +%T) seq=$i" >> /data/log-tvu27.txt
+                i=$((i+1))
+                sleep 2
+              done
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /data
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: pvc-shared-tvu27

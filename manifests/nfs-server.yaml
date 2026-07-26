@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server-tvu27
+  namespace: nfs-tvu27
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-server-tvu27
+  template:
+    metadata:
+      labels:
+        app: nfs-server-tvu27
+    spec:
+      containers:
+        - name: nfs-server
+          image: itsthenetwork/nfs-server-alpine:latest
+          imagePullPolicy: IfNotPresent
+
+          securityContext:
+            privileged: true
+
+          env:
+            - name: SHARED_DIRECTORY
+              value: "/nfsshare"
+
+          ports:
+            - containerPort: 2049
+              name: nfs
+            - containerPort: 111
+              name: rpcbind
+            - containerPort: 20048
+              name: mountd
+
+          volumeMounts:
+            - name: nfs-storage
+              mountPath: /nfsshare
+
+      volumes:
+        - name: nfs-storage
+          persistentVolumeClaim:
+            claimName: nfs-backend-tvu27

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reader-tvu27
+  namespace: nfs-tvu27
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: reader-tvu27
+
+  template:
+    metadata:
+      labels:
+        app: reader-tvu27
+
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - reader-tvu27
+              topologyKey: kubernetes.io/hostname
+
+      containers:
+        - name: reader
+          image: busybox:latest
+          imagePullPolicy: IfNotPresent
+
+          command:
+            - /bin/sh
+            - -c
+            - |
+              while [ ! -f /data/log-tvu27.txt ]; do
+                echo "Waiting for log file..."
+                sleep 2
+              done
+              tail -f /data/log-tvu27.txt
+
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /data
+              readOnly: true
+
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: pvc-shared-tvu27

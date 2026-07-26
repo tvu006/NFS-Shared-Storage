@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rwo-conflict-tvu27
+  namespace: nfs-tvu27
+  labels:
+    app: rwo-conflict-tvu27
+
+spec:
+  containers:
+    - name: conflict-test
+      image: busybox:latest
+      imagePullPolicy: IfNotPresent
+
+      command:
+        - /bin/sh
+        - -c
+        - |
+          echo "This pod should not successfully mount the RWO volume"
+          sleep 3600
+
+      volumeMounts:
+        - name: backend-storage
+          mountPath: /nfsshare
+
+  volumes:
+    - name: backend-storage
+      persistentVolumeClaim:
+        claimName: nfs-backend-tvu27
