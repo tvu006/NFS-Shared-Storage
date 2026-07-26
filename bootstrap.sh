@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Configuration
-STUDENTID ="tvu27"
+STUDENTID="tvu27"
 
 NAMESPACE="nfs-${STUDENTID}"
 PV_NAME="pv-nfs-${STUDENTID}"
