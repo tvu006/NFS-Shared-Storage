@@ -122,6 +122,10 @@ kubectl exec -it <reader-pod> -n nfs-tvu27 -- tail -20 /data/log-tvu27.txt
 # 7. Destruction
 ```bash
 kubectl delete namespace nfs-tvu27
+# Incase the above command takes too long, it is because a pod is not being deleted
+kubectl get pods -n nfs-tvu27
+kubectl delete pod <pod-name> -n nfs-tvu27 --grace-period=0 --force
+# Retry and continue
 kubectl delete pv pv-nfs-tvu27
 kind delete cluster
 
