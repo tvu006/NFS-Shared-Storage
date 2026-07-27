@@ -12,7 +12,7 @@ CLUSTER_NAME="nfs-cluster"
 MANIFESTS="manifests"
 
 # Create Kind Cluster
-echo "Creating Kind cluster..."
+echo "Creating Kind cluster."
 
 kind delete cluster --name "${CLUSTER_NAME}" >/dev/null 2>&1 || true
 
@@ -43,7 +43,7 @@ kubectl rollout status deployment/nfs-server-${STUDENTID} \
     --timeout=180s
 
 # Get ClusterIP
-echo "Retrieving NFS Service ClusterIP..."
+echo "Retrieving NFS Service ClusterIP."
 
 NFS_IP=$(kubectl get svc nfs-svc-${STUDENTID} \
     -n "${NAMESPACE}" \
@@ -61,10 +61,10 @@ sed "s/__NFS_IP__/${NFS_IP}/g" \
 kubectl apply -f /tmp/pv-nfs.yaml
 
 # Shared PVC
-echo "Creating shared PVC..."
+echo "Creating shared PVC."
 
 kubectl apply -f "${MANIFESTS}/shared-pvc.yaml"
-echo "Waiting for shared PVC..."
+echo "Waiting for shared PVC."
 
 kubectl wait \
     --for=jsonpath='{.status.phase}'=Bound \

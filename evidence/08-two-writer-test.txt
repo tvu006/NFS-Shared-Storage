@@ -1,0 +1,32 @@
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl scale deployment writer-tvu27 --replicas=2 -n nfs-tvu27
+deployment.apps/writer-tvu27 scaled
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl get pods -n nfs-tvu27
+NAME                               READY   STATUS    RESTARTS   AGE
+nfs-server-tvu27-8fcc55b7d-6xcdl   1/1     Running   0          39m
+reader-tvu27-5768864f68-p22zw      1/1     Running   0          39m
+reader-tvu27-5768864f68-slwx9      1/1     Running   0          39m
+rwo-conflict-tvu27                 0/1     Pending   0          13m
+writer-tvu27-84fdc4d7f-q2fj4       1/1     Running   0          9s
+writer-tvu27-84fdc4d7f-zl25x       1/1     Running   0          5m47s
+
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl exec -it reader-tvu27-5768864f68-slwx9 -n nfs-tvu27 -- tail -20 /data/log-tvu27.txt
+tvu27 writer-tvu27-84fdc4d7f-zl25x 00:43:58 seq=187
+tvu27 writer-tvu27-84fdc4d7f-zl25x 00:44:00 seq=188
+tvu27 writer-tvu27-84fdc4d7f-zl25x 00:44:02 seq=189
+tvu27 writer-tvu27-84fdc4d7f-zl25x 00:44:04 seq=190
+tvu27 writer-tvu27-84fdc4d7f-zl25x 00:44:06 seq=191
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:08 seq=23
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:10 seq=24
+7-84fdc4d7f-zl25x 00:44:10 seq=193
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:12 seq=25
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:14 seq=26
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:16 seq=27
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:18 seq=28
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:20 seq=29
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:22 seq=30
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:24 seq=31
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:26 seq=32
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:28 seq=33
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:30 seq=34
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:32 seq=35
+tvu27 writer-tvu27-84fdc4d7f-q2fj4 00:44:34 seq=36

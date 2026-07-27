@@ -1,0 +1,16 @@
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl get pods -n nfs-tvu27
+NAME                               READY   STATUS    RESTARTS   AGE
+nfs-server-tvu27-8fcc55b7d-6xcdl   1/1     Running   0          49m
+reader-tvu27-5768864f68-p22zw      1/1     Running   0          49m
+reader-tvu27-5768864f68-slwx9      1/1     Running   0          49m
+rwo-conflict-tvu27                 0/1     Pending   0          23m
+writer-tvu27-84fdc4d7f-zl25x       1/1     Running   0          16m
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl delete pod nfs-server-tvu27-8fcc55b7d-6xcdl -n nfs-tvu27
+pod "nfs-server-tvu27-8fcc55b7d-6xcdl" deleted from nfs-tvu27 namespace
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl get pods -n nfs-tvu27
+NAME                               READY   STATUS    RESTARTS   AGE
+nfs-server-tvu27-8fcc55b7d-f4rh2   1/1     Running   0          39s
+reader-tvu27-5768864f68-p22zw      1/1     Running   0          50m
+reader-tvu27-5768864f68-slwx9      1/1     Running   0          50m
+rwo-conflict-tvu27                 0/1     Pending   0          24m
+writer-tvu27-84fdc4d7f-zl25x       1/1     Running   0          17m

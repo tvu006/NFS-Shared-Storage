@@ -1,0 +1,23 @@
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl exec reader-tvu27-5768864f68-slwx9 -n nfs-tvu27 -- tail -10 /data/log-tvu27.txt                                                                                                            
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:19 seq=1014
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:21 seq=1015
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:23 seq=1016
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:25 seq=1017
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:27 seq=1018
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:29 seq=1019
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:31 seq=1020
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:33 seq=1021
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:35 seq=1022
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:37 seq=1023
+
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl exec writer-tvu27-84fdc4d7f-zl25x -n nfs-tvu27 -- tail -10 /data/log-tvu27.txt                                                                                                             
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:31 seq=1020
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:33 seq=1021
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:35 seq=1022
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:37 seq=1023
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:39 seq=1024
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:41 seq=1025
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:43 seq=1026
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:45 seq=1027
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:47 seq=1028
+tvu27 writer-tvu27-84fdc4d7f-zl25x 01:13:49 seq=1029
