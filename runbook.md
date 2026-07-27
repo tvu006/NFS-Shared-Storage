@@ -13,6 +13,17 @@ Environment:
 
 The deployment runs entirely inside Kind on a local EC2/Cloud9 host.
 
+# NFS Server Required Configuration
+
+The NFS server uses the image:
+itsthenetwork/nfs-server-alpine:latest
+
+This image requires two specific configurations:
+1. The `SHARED_DIRECTORY` environment variable.
+The NFS server image uses the `SHARED_DIRECTORY` environment variable to determine which directory inside the container should be exported through NFS.
+2. A privileged security context.
+The NFS server container requires elevated privileges because it must perform NFS server operations, including starting kernel-level NFS services and exporting the filesystem.
+
 # 1. Clone Repo
 ```bash
 git clone https://github.com/tvu006/NFS-Shared-Storage
@@ -52,6 +63,31 @@ kubectl get pv,pvc -n nfs-tvu27
 kubectl exec -it <writer-pod> -n nfs-tvu27 -- tail -5 /data/log-tvu27.txt
 kubectl exec -it <reader1> -n nfs-tvu27 -- tail -5 /data/log-tvu27.txt
 ```
+
+# Verify NFS Client Utilities on Kind Nodes
+
+The NFS mount operation is performed by the kubelet on the Kubernetes node, so the worker nodes require NFS client utilities.
+
+Verify on each worker:
+```bash
+docker exec -it nfs-cluster-worker bash
+which mount.nfs
+mount.nfs --version
+exit
+
+docker exec -it nfs-cluster-worker2 bash
+which mount.nfs
+mount.nfs --version
+exit
+```
+
+Expected output:
+root@nfs-cluster-worker2:/# which mount.nfs
+/usr/sbin/mount.nfs
+root@nfs-cluster-worker2:/# mount.nfs --version
+mount.nfs: (linux nfs-utils 2.6.2)
+
+The standard kindest/node image includes the required NFS client utilities.
 
 # 5. Demo
 # Prove RWO vs RWX
