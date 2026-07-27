@@ -1,0 +1,53 @@
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kubectl describe namespace nfs-tvu27
+Name:         nfs-tvu27
+Labels:       kubernetes.io/metadata.name=nfs-tvu27
+Annotations:  <none>
+Status:       Terminating
+Conditions:
+  Type                                         Status  LastTransitionTime               Reason                  Message
+  ----                                         ------  ------------------               ------                  -------
+  NamespaceDeletionDiscoveryFailure            False   Sun, 26 Jul 2026 22:04:58 -0400  ResourcesDiscovered     All resources successfully discovered
+  NamespaceDeletionGroupVersionParsingFailure  False   Sun, 26 Jul 2026 22:04:58 -0400  ParsedGroupVersions     All legacy kube types successfully parsed
+  NamespaceDeletionContentFailure              True    Sun, 26 Jul 2026 22:05:35 -0400  ContentDeletionFailed   Failed to delete all resource types, 1 remaining: unexpected items still remain in namespace: nfs-tvu27 for gvr: /v1, Resource=pods
+  NamespaceContentRemaining                    False   Sun, 26 Jul 2026 22:04:58 -0400  ContentRemoved          All content successfully removed
+  NamespaceFinalizersRemaining                 False   Sun, 26 Jul 2026 22:04:58 -0400  ContentHasNoFinalizers  All content-preserving finalizers finished
+
+No resource quota.
+
+No LimitRange resource.
+
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kubectl get pods -n nfs-tvu27
+NAME                           READY   STATUS        RESTARTS   AGE
+reader-tvu27-b5fc5494b-5kqfv   1/1     Terminating   0          3h6m
+reader-tvu27-b5fc5494b-ws42w   1/1     Terminating   0          3h6m
+
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kubectl delete pod reader-tvu27-b5fc5494b-5kqfv -n nfs-tvu27 --grace-period=0 --force
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "reader-tvu27-b5fc5494b-5kqfv" force deleted from nfs-tvu27 namespace
+
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kubectl get pods -n nfs-tvu27
+No resources found in nfs-tvu27 namespace.
+
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kubectl delete namespace nfs-tvu27
+namespace "nfs-tvu27" deleted
+
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kubectl get all -n nfs-tvu27
+No resources found in nfs-tvu27 namespace.
+
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kubectl delete pv pv-nfs-tvu27
+persistentvolume "pv-nfs-tvu27" deleted
+
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kind delete cluster
+Deleting cluster "kind" ...
+
+tvu00@Tony-Desktop MINGW64 ~/School/CLO835/NFS-Shared-Storage (dev)
+$ kubectl get pv
+No resources found
