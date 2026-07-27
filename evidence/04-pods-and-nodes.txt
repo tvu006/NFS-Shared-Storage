@@ -1,0 +1,6 @@
+$ kubectl get pods -o wide -n nfs-tvu27
+NAME                               READY   STATUS    RESTARTS   AGE   IP           NODE                  NOMINATED NODE   READINESS GATES
+nfs-server-tvu27-8fcc55b7d-f4rh2   1/1     Running   0          17m   10.244.1.8   nfs-cluster-worker    <none>           <none>
+reader-tvu27-5768864f68-p22zw      1/1     Running   0          67m   10.244.3.3   nfs-cluster-worker2   <none>           <none>
+reader-tvu27-5768864f68-slwx9      1/1     Running   0          67m   10.244.1.4   nfs-cluster-worker    <none>           <none>
+writer-tvu27-84fdc4d7f-zl25x       1/1     Running   0          33m   10.244.3.4   nfs-cluster-worker2   <none>           <none>

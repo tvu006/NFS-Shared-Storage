@@ -1,0 +1,8 @@
+$ kubectl get pv,pvc -n nfs-tvu27
+NAME                                                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                         STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+persistentvolume/pv-nfs-tvu27                               1Gi        RWX            Retain           Bound    nfs-tvu27/pvc-shared-tvu27                   <unset>                          64m
+persistentvolume/pvc-f35ba2da-1162-4c7d-98fd-ffa168110c15   1Gi        RWO            Delete           Bound    nfs-tvu27/nfs-backend-tvu27   standard       <unset>                          64m
+
+NAME                                      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/nfs-backend-tvu27   Bound    pvc-f35ba2da-1162-4c7d-98fd-ffa168110c15   1Gi        RWO            standard       <unset>                 65m
+persistentvolumeclaim/pvc-shared-tvu27    Bound    pv-nfs-tvu27                               1Gi        RWX                           <unset>                 64m

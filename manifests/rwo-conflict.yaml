@@ -7,6 +7,9 @@ metadata:
     app: rwo-conflict-tvu27
 
 spec:
+  nodeSelector:
+    worker: two
+
   containers:
     - name: conflict-test
       image: busybox:latest
@@ -16,7 +19,7 @@ spec:
         - /bin/sh
         - -c
         - |
-          echo "This pod should not successfully mount the RWO volume"
+          echo "Attempting to mount the RWO backend volume..."
           sleep 3600
 
       volumeMounts:
@@ -27,3 +30,4 @@ spec:
     - name: backend-storage
       persistentVolumeClaim:
         claimName: nfs-backend-tvu27
+

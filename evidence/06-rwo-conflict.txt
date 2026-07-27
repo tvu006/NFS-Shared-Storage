@@ -1,0 +1,56 @@
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl get pods -o wide -n nfs-tvu27
+NAME                               READY   STATUS    RESTARTS   AGE   IP           NODE                  NOMINATED NODE   READINESS GATES
+nfs-server-tvu27-8fcc55b7d-6xcdl   1/1     Running   0          27m   10.244.1.3   nfs-cluster-worker    <none>           <none>
+reader-tvu27-5768864f68-p22zw      1/1     Running   0          26m   10.244.3.3   nfs-cluster-worker2   <none>           <none>
+reader-tvu27-5768864f68-slwx9      1/1     Running   0          26m   10.244.1.4   nfs-cluster-worker    <none>           <none>
+rwo-conflict-tvu27                 0/1     Pending   0          45s   <none>       <none>                <none>           <none>
+writer-tvu27-84fdc4d7f-8hjj9       1/1     Running   0          26m   10.244.3.2   nfs-cluster-worker2   <none>           <none>
+
+voclabs:~/environment/NFS-Shared-Storage (main) $ kubectl describe pod rwo-conflict-tvu27 -n nfs-tvu27
+Name:             rwo-conflict-tvu27
+Namespace:        nfs-tvu27
+Priority:         0
+Service Account:  default
+Node:             <none>
+Labels:           app=rwo-conflict-tvu27
+Annotations:      <none>
+Status:           Pending
+IP:               
+IPs:              <none>
+Containers:
+  conflict-test:
+    Image:      busybox:latest
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      /bin/sh
+      -c
+      echo "This pod should not successfully mount the RWO volume"
+      sleep 3600
+      
+    Environment:  <none>
+    Mounts:
+      /nfsshare from backend-storage (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-mlcj7 (ro)
+Conditions:
+  Type           Status
+  PodScheduled   False 
+Volumes:
+  backend-storage:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  nfs-backend-tvu27
+    ReadOnly:   false
+  kube-api-access-mlcj7:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              worker=two
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  2m13s  default-scheduler  0/3 nodes are available: 1 node(s) didn't match PersistentVolume's node affinity, 1 node(s) didn't match Pod's node affinity/selector, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/3 nodes are available: 3 Preemption is not helpful for scheduling.
